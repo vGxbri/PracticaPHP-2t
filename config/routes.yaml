@@ -9,3 +9,7 @@ home:
 library:
     path: /library
     controller: App\Controller\LibraryController::index
+
+artist_zone:
+    path: /zona
+    controller: App\Controller\ArtistZoneController::index

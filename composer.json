@@ -6,7 +6,8 @@
         "twig/twig": "^3.0",
         "symfony/cache": "^7.2",
         "symfony/asset": "^7.2",
-        "symfony/twig-bridge": "^7.2"
+        "symfony/twig-bridge": "^7.2",
+        "symfony/mime": "^7.2"
     },
     "autoload": {
         "psr-4": {

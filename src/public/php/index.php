@@ -1,11 +1,9 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 
-require '../../Entity/Cancion.php';
-require '../../Entity/Usuario.php';
-require '../../Entity/Artista.php';
+require_once '../../Entity/Cancion.php';
+require_once '../../Entity/Usuario.php';
+require_once '../../Entity/Artista.php';
 
 $twig = require_once __DIR__ . '/../../config/twig.php';
 require ('loginForm.php');
@@ -29,7 +27,7 @@ try {
         $_SERVER
     );
 
-    // C1ll the index method
+    // Call the index method
     $response = $controller->index($request);
     
     // Render the response
