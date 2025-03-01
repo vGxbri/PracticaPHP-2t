@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <title>Biblioteca | UrbanMusic</title>
+</head>
+<body>
+    {% include 'components/navLeft.html.twig' with {'artista': artista} %}
+
+    <div class="mainGeneral">
+        {% include 'components/navTop.html.twig' with {'usuario': usuario} %}
+
+        <div class="main">
+            <div class="titCanciones">
+                <h1 class="titCanciones-inside">Canciones Guardadas</h1>
+            </div>
+
+            {% if not usuario %}
+                <p style="font-weight: bold; color: #cc0000; margin-left: 12px">Necesitas iniciar sesión para acceder a tu biblioteca.</p>
+            {% elseif error %}
+                <p style="color: #cc0000; margin-left: 12px">Error: {{ error }}</p>
+            {% else %}
+                {% if cancionesFavoritas|length > 0 %}
+                    <div class="favSongs">
+                        {% for cancion in cancionesFavoritas %}
+                            <div class="favSongs-inside">
+                                <div class="columnLeftFavs">
+                                    <img src="{{ cancion.cover }}" class="coverFavs">
+                                    <div class="infoFavSongs">
+                                        <h2 class="titSongFavs">{{ cancion.nombre }}</h2>
+                                        <p class="artistFavs">
+                                            {% set artistasNombres = [] %}
+                                            {% for artista in cancion.artistas %}
+                                                {% set artistasNombres = artistasNombres|merge([artista.nombre]) %}
+                                            {% endfor %}
+                                            {{ artistasNombres|join(', ') }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="columnRightFavs">
+                                    <label class="removeFrom">
+                                        <button class="buttonRemoveFrom" onclick="eliminarCancionBiblioteca('{{ cancion.id }}')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="rellenar" fill="white"><path d="M8 11a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2z"/><path fill-rule="evenodd" d="M23 12c0 6.075-4.925 11-11 11S1 18.075 1 12S5.925 1 12 1s11 4.925 11 11m-2 0a9 9 0 1 1-18 0a9 9 0 0 1 18 0" clip-rule="evenodd"/></g></svg>
+                                        </button>
+                                    </label>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p style="font-weight: bold; color: red; margin-left: 12px">¡No tienes canciones guardadas!</p>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        {% include 'components/navBottom.html.twig' with {'cancionActual': cancionActual} %}
+    </div>
+
+    <script src="{{ asset('js/script.js') }}"></script>
+</body>
+</html>

@@ -5,3 +5,7 @@ controllers:
 home:
     path: /
     controller: App\Controller\SongController::index
+
+library:
+    path: /library
+    controller: App\Controller\LibraryController::index
