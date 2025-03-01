@@ -4,6 +4,7 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 require_once "vendor/autoload.php";
 
@@ -12,7 +13,7 @@ $paths = [__DIR__ . "/src/Entity"];
 $isDevMode = true;
 
 // Configuración de caché
-$cache = new ArrayAdapter();
+$cache = new FilesystemAdapter();
 
 // Configuración de Doctrine con anotaciones
 $config = ORMSetup::createAttributeMetadataConfiguration(
@@ -55,4 +56,3 @@ try {
     echo "</pre>";
     die();
 }
-?>

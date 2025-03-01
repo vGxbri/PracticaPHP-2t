@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <title>UrbanMusic</title>
+</head>
+<body>
+{# Navegación izquierda #}
+{% include 'components/navLeft.html.twig' with {'artista': artista} %}
+
+<div class="mainGeneral">
+    {# Navegación superior #}
+    {% include 'components/navTop.html.twig' with {'usuario': usuario} %}
+
+    <div class="main">
+        <div class="titCanciones">
+            <h1 class="titCanciones-inside">Canciones</h1>
+            <form method="GET" action="{{ path('home') }}" class="search-form">
+                <input type="text" name="query" placeholder="Buscar canción..." class="search-input" value="{{ query }}">
+                    <button type="submit" class="search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 48 48"><g fill="none" stroke="#23cf5f" stroke-linecap="round" stroke-width="4"><path d="m31 31l10 10"/><circle cx="20" cy="20" r="14"/></g></svg>
+                    </button>
+            </form>
+        </div>
+
+        {% if error_addsong is defined and error_addsong %}
+        <p style='color: #cc0000; margin: 0 0 0 12px;'>{{ error_addsong }}</p>
+        {% endif %}
+
+        {% if error is defined and error %}
+        <p style='color: #cc0000; margin-left: 12px'>Error: {{ error }}</p>
+        {% endif %}
+
+        <div class="songs">
+            {% for cancion in canciones %}
+            <div class='songs-inside'>
+                <img src='{{ cancion.cover }}' class='cover'>
+                    <div class='bottomCover'>
+                        <div class='columnLeft'>
+                            <h2 class='titSong'>{{ cancion.nombre }}</h2>
+                            <p class='artist'>
+                                {% set artistasNombres = [] %}
+                                {% for artista in cancion.artistas %}
+                                {% set artistasNombres = artistasNombres|merge([artista.nombre]) %}
+                                {% endfor %}
+                                {{ artistasNombres ? artistasNombres|join(', ') : 'Sin artistas' }}
+                            </p>
+                        </div>
+                        <div class='columnRight'>
+                            <label class='addTo'>
+                                <button class='buttonAddTo' onclick="guardarCancion('{{ cancion.id }}')">
+                                    <svg xmlns='http://www.w3.org/2000/svg' width='30px' height='30px' viewBox='0 0 48 48'><g fill='none' stroke='#23cf5f' stroke-linejoin='round' stroke-width='4'><path d='M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20Z'/><path stroke-linecap='round' d='M24 16v16m-8-8h16'/></g></svg>
+                                </button>
+                            </label>
+                        </div>
+                    </div>
+            </div>
+            {% else %}
+            <p>No se encontraron canciones.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# Navegación inferior #}
+    {% include 'components/navBottom.html.twig' with {'cancionActual': cancionActual} %}
+</div>
+
+<script src="{{ asset('js/script.js') }}"></script>
+</body>
+</html>

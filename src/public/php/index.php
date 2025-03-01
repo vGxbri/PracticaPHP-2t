@@ -1,52 +1,40 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require '../../Entity/Cancion.php';
 require '../../Entity/Usuario.php';
 require '../../Entity/Artista.php';
 
+$twig = require_once __DIR__ . '/../../config/twig.php';
 require ('loginForm.php');
 
-$twig = require_once __DIR__ . '/../../config/twig.php';
+// Get the current route
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-?>
+// Initialize the controller
+$controller = new \App\Controller\SongController(
+    require_once __DIR__ . "/../../../doctrine-config.php"
+);
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
-    <title>UrbanMusic</title>
-</head>
-    <body>
-        <?php
-            echo $twig->render('components/navLeft.html.twig', [
-                'artista' => isset($_SESSION['artista'])
-            ]);
-        ?>
-        
-        <div class="mainGeneral">
-            <?php
-                echo $twig->render('components/navTop.html.twig', [
-                    'usuario' => $_SESSION['usuario'] ?? null
-                ]);
-            ?>
-            <div class="main">
-                <?php
-                    require ('main.php');
-                ?>
-            </div>n
+try {
+    // Create a Request object
+    $request = new \Symfony\Component\HttpFoundation\Request(
+        $_GET,
+        $_POST,
+        [],
+        $_COOKIE,
+        $_FILES,
+        $_SERVER
+    );
 
-            <?php
-                echo $twig->render('components/navBottom.html.twig', [
-                    'cancionActual' => $cancionActual ?? null
-                ]);
-            ?>
-        </div>
-        
-    <script src="../js/script.js"></script>
-    </body>
-</html>
+    // C1ll the index method
+    $response = $controller->index($request);
+    
+    // Render the response
+    echo $response->getContent();
+    
+} catch (\Exception $e) {
+    echo "<p style='color: #cc0000; margin-left: 12px'>Error: " . $e->getMessage() . "</p>";
+}
