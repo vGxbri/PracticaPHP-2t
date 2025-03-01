@@ -1,0 +1,26 @@
+<nav class="navTop">
+    <ul class="boxTop-login">
+        {% if usuario %}
+            <a class="boxTop-inside">
+                <div class="loggedIn-info" id="loggedIn-info">
+                    <p id="userNameTop">
+                        {{ usuario }}
+                    </p>
+                    <img src="../imgs/profile.png" id="profilePhoto">
+                </div>
+            </a>
+            <ul class="dropDownProfile" id="dropDownProfile" style="display: none">
+                <li class="profileOption">
+                    <a href="settings.php">Editar perfil</a>
+                </li>
+                <li class="profileOption">
+                    <a href="cerrarSesion.php">Cerrar sesión</a>
+                </li>
+            </ul>
+        {% else %}
+            <a class="boxTop-inside">
+                <a id="login">Iniciar sesión</a>
+            </a>
+        {% endif %}
+    </ul>
+</nav>

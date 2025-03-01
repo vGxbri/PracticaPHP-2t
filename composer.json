@@ -1,0 +1,15 @@
+{
+    "require": {
+        "doctrine/orm": "^2.16",
+        "doctrine/dbal": "^3.7",
+        "doctrine/annotations": "^2.0",
+        "twig/twig": "^3.0",
+        "symfony/cache-contracts": "^3.0",
+        "symfony/cache": "^7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Entity\\": "src/Entity/"
+        }
+    }
+}

@@ -1,0 +1,32 @@
+<nav class="navLeft">
+    <ul class="box">
+        <a class="box-inside" href="index.php">
+            <img id="imgHome" class="icons" src="../imgs/home.png" alt="Principal">
+            <img class="icons" src="../imgs/home-filled.png" alt="Principal">
+            <span class="textIcons">Principal</span>
+        </a>
+    </ul>
+    <ul class="box">
+        <a class="box-inside" href="library.php">
+            <img id="imgLibrary" class="icons" src="../imgs/library.png" alt="Biblioteca">
+            <img class="icons" src="../imgs/library-filled.png" alt="Biblioteca">
+            <span class="textIcons">Biblioteca</span>
+        </a>
+    </ul>
+    {% if artista %}
+        <ul class="box">
+            <a class="box-inside" href="zonaArtistas.php">
+                <img id="imgArtists" class="icons" src="../imgs/artist.png" alt="zonaArtistas">
+                <img class="icons" src="../imgs/artist-filled.png" alt="Ajustes">
+                <span class="textIcons">Zona de Artistas</span>
+            </a>
+        </ul>
+    {% endif %}
+    <ul class="box">
+        <a class="box-inside" href="settings.php">
+            <img id="imgSettings" class="icons" src="../imgs/settings.png" alt="Ajustes">
+            <img class="icons" src="../imgs/settings-filled.png" alt="Ajustes">
+            <span class="textIcons">Ajustes</span>
+        </a>
+    </ul>
+</nav>

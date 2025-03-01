@@ -1,0 +1,23 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+# Otros archivos a ignorar
+.idea/
+.vscode/
+node_modules/
+/public/uploads/
+
+# Archivos de caché y logs
+/var/cache/*
+/var/log/*
+*.log
+
+# Database
+*.sqlite

@@ -1,0 +1,9 @@
+<?php
+require_once "vendor/autoload.php";
+require_once "doctrine-config.php";
+
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+
+$provider = new SingleManagerProvider($entityManager);
+ConsoleRunner::run($provider);
