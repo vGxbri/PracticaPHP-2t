@@ -160,7 +160,7 @@ class __TwigTemplate_fbaef9483a7abf57dd556286efce2741 extends Template
         // line 60
         if (!$context['_iterated']) {
             // line 61
-            yield "            <p>No se encontraron canciones.</p>
+            yield "                <p style='color: #cc0000; margin-left: 12px'>Error: No se encontraron canciones.</p>
             ";
         }
         $_parent = $context['_parent'];
@@ -272,7 +272,7 @@ class __TwigTemplate_fbaef9483a7abf57dd556286efce2741 extends Template
                     </div>
             </div>
             {% else %}
-            <p>No se encontraron canciones.</p>
+                <p style='color: #cc0000; margin-left: 12px'>Error: No se encontraron canciones.</p>
             {% endfor %}
         </div>
     </div>

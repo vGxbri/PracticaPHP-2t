@@ -62,32 +62,32 @@ class UserController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-
+    
         if (!isset($_SESSION['usuario'])) {
             return new RedirectResponse('index.php');
         }
-
+    
         if ($request->isMethod('POST')) {
             $usuarioActual = $_SESSION['usuario'];
             $usuarioNuevo = trim($request->request->get('usuario_nuevo'));
-
+    
             // Verificar que el nuevo nombre sea diferente al actual
             if ($usuarioActual === $usuarioNuevo) {
                 $_SESSION['error_settings_user'] = "El nuevo nombre de usuario debe ser diferente al actual.";
                 return new RedirectResponse('settings.php');
             }
-
+    
             try {
                 $usuarioRepository = $this->entityManager->getRepository(Usuario::class);
                 $usuarioExistente = $usuarioRepository->findOneBy(['user' => $usuarioNuevo]);
-
+    
                 // Verificar que el nuevo nombre no esté en uso
                 if ($usuarioExistente) {
                     $_SESSION['error_settings_user'] = "El nombre de usuario ya está en uso.";
                 } else {
                     $this->entityManager->beginTransaction();
                     $usuario = $usuarioRepository->findOneBy(['user' => $usuarioActual]);
-
+    
                     if ($usuario) {
                         // Crear nuevo usuario con el hash de contraseña existente
                         $nuevoUsuario = new Usuario($usuarioNuevo, '', $usuario->getPasswordHash());
@@ -97,16 +97,26 @@ class UserController
                         foreach ($usuario->getCancionesFavoritas() as $cancion) {
                             $nuevoUsuario->addCancionFavorita($cancion);
                         }
-
+    
                         // Transferir relación con artista si existe
                         if ($usuario->getArtista()) {
                             $artista = $usuario->getArtista();
                             $artista->setUser($nuevoUsuario);
                             $nuevoUsuario->setArtista($artista);
                         }
-
+                        
+                        // Transferir canciones subidas por el usuario
+                        $cancionRepository = $this->entityManager->getRepository(\Entity\Cancion::class);
+                        // Modificamos la consulta para buscar por 'user' en lugar de 'usuario'
+                        $canciones = $cancionRepository->findBy(['usuario' => $usuario]);
+                        foreach ($canciones as $cancion) {
+                            // Usar setUsuario en lugar de setUser
+                            $cancion->setUsuario($nuevoUsuario);
+                        }
+    
                         // Guardar cambios en la base de datos
                         $this->entityManager->persist($nuevoUsuario);
+                        $this->entityManager->flush();
                         $this->entityManager->remove($usuario);
                         $this->entityManager->flush();
                         $this->entityManager->commit();
@@ -121,7 +131,7 @@ class UserController
                 $_SESSION['error_settings_user'] = "Error al actualizar el usuario: " . $e->getMessage();
             }
         }
-
+    
         return new RedirectResponse('settings.php');
     }
 
@@ -144,13 +154,13 @@ class UserController
             $passActual = trim($request->request->get('contrasena_actual'));
             $passNueva = trim($request->request->get('nueva_contrasena'));
             $passConfirm = trim($request->request->get('nueva_contrasena_confirmar'));
-
+    
             // Verificar que las contraseñas nuevas coincidan
             if ($passNueva !== $passConfirm) {
                 $_SESSION['error_settings_pass'] = "Las contraseñas no coinciden.";
                 return new RedirectResponse('settings.php');
             }
-
+    
             try {
                 $this->entityManager->beginTransaction();
                 
@@ -180,7 +190,7 @@ class UserController
                 $_SESSION['error_settings_pass'] = "Error al actualizar la contraseña: " . $e->getMessage();
             }
         }
-
+    
         return new RedirectResponse('settings.php');
     }
 
@@ -239,7 +249,7 @@ class UserController
                 $_SESSION['error_settings_delete'] = "Error al eliminar la cuenta: " . $e->getMessage();
             }
         }
-
+    
         return new RedirectResponse('settings.php');
     }
 }

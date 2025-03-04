@@ -162,4 +162,15 @@ class Cancion
     {
         return $this->usuariosFavoritos;
     }
+
+    /**
+     * Establece el usuario que subió la canción
+     * @param Usuario|null $usuario El usuario que subió la canción
+     * @return self
+     */
+    public function setUsuario(?Usuario $usuario): self
+    {
+        $this->usuario = $usuario;
+        return $this;
+    }
 }
