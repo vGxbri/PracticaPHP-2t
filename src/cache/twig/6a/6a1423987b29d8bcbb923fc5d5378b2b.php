@@ -66,10 +66,7 @@ class __TwigTemplate_fbaef9483a7abf57dd556286efce2741 extends Template
     <div class=\"main\">
         <div class=\"titCanciones\">
             <h1 class=\"titCanciones-inside\">Canciones</h1>
-            <form method=\"GET\" action=\"";
-        // line 20
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getFunction('path')->getCallable()("home"), "html", null, true);
-        yield "\" class=\"search-form\">
+            <form method=\"GET\" action=\"index.php\" class=\"search-form\">
                 <input type=\"text\" name=\"query\" placeholder=\"Buscar canción...\" class=\"search-input\" value=\"";
         // line 21
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(($context["query"] ?? null), "html", null, true);
@@ -210,7 +207,7 @@ class __TwigTemplate_fbaef9483a7abf57dd556286efce2741 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  185 => 70,  181 => 68,  178 => 67,  173 => 63,  166 => 61,  164 => 60,  152 => 53,  143 => 48,  137 => 47,  134 => 46,  129 => 45,  127 => 44,  122 => 42,  116 => 39,  113 => 38,  108 => 37,  104 => 35,  98 => 33,  96 => 32,  93 => 31,  87 => 29,  85 => 28,  75 => 21,  71 => 20,  65 => 16,  62 => 15,  58 => 12,  56 => 11,  49 => 6,  42 => 1,);
+        return array (  182 => 70,  178 => 68,  175 => 67,  170 => 63,  163 => 61,  161 => 60,  149 => 53,  140 => 48,  134 => 47,  131 => 46,  126 => 45,  124 => 44,  119 => 42,  113 => 39,  110 => 38,  105 => 37,  101 => 35,  95 => 33,  93 => 32,  90 => 31,  84 => 29,  82 => 28,  72 => 21,  65 => 16,  62 => 15,  58 => 12,  56 => 11,  49 => 6,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -234,7 +231,7 @@ class __TwigTemplate_fbaef9483a7abf57dd556286efce2741 extends Template
     <div class=\"main\">
         <div class=\"titCanciones\">
             <h1 class=\"titCanciones-inside\">Canciones</h1>
-            <form method=\"GET\" action=\"{{ path('home') }}\" class=\"search-form\">
+            <form method=\"GET\" action=\"index.php\" class=\"search-form\">
                 <input type=\"text\" name=\"query\" placeholder=\"Buscar canción...\" class=\"search-input\" value=\"{{ query }}\">
                     <button type=\"submit\" class=\"search-button\">
                         <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20px\" height=\"20px\" viewBox=\"0 0 48 48\"><g fill=\"none\" stroke=\"#23cf5f\" stroke-linecap=\"round\" stroke-width=\"4\"><path d=\"m31 31l10 10\"/><circle cx=\"20\" cy=\"20\" r=\"14\"/></g></svg>

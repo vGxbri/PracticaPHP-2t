@@ -93,7 +93,7 @@ class ArtistZoneController
             }
 
             if (!empty($nombreCancion) && $duracion > 0 && !empty($fecha) && $cover && !empty($artistasSeleccionados)) {
-                $uploadDir = __DIR__ . '/../../public/imgs/covers/';
+                $uploadDir = __DIR__ . '/../public/imgs/covers/';
                 if (!file_exists($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }

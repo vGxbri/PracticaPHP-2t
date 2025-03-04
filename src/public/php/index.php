@@ -1,24 +1,23 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-require_once '../../Entity/Cancion.php';
-require_once '../../Entity/Usuario.php';
-require_once '../../Entity/Artista.php';
+require '../../Entity/Cancion.php';
+require '../../Entity/Usuario.php';
+require '../../Entity/Artista.php';
 
 $twig = require_once __DIR__ . '/../../config/twig.php';
 require ('loginForm.php');
 
-// Get the current route
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-// Initialize the controller
-$controller = new \App\Controller\SongController(
+// Inicializar el controlador
+$controlador = new \App\Controller\HomeController(
     require_once __DIR__ . "/../../../doctrine-config.php"
 );
 
 try {
-    // Create a Request object
-    $request = new \Symfony\Component\HttpFoundation\Request(
+    // Crear objeto Request
+    $peticion = new \Symfony\Component\HttpFoundation\Request(
         $_GET,
         $_POST,
         [],
@@ -27,12 +26,19 @@ try {
         $_SERVER
     );
 
-    // Call the index method
-    $response = $controller->index($request);
+    // Llamar al método index
+    $respuesta = $controlador->index($peticion);
     
-    // Render the response
-    echo $response->getContent();
+    // Mostrar la respuesta
+    echo $respuesta->getContent();
     
 } catch (\Exception $e) {
-    echo "<p style='color: #cc0000; margin-left: 12px'>Error: " . $e->getMessage() . "</p>";
+    echo $twig->render('home/index.html.twig', [
+        'usuario' => $_SESSION['usuario'] ?? null,
+        'artista' => isset($_SESSION['artista']),
+        'error' => $e->getMessage(),
+        'canciones' => [],
+        'query' => $_GET['query'] ?? '',
+        'cancionActual' => null
+    ]);
 }
