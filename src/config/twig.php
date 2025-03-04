@@ -11,14 +11,29 @@ $twig = new \Twig\Environment($loader, [
     'auto_reload' => true
 ]);
 
-// Add a simple asset function
 $twig->addFunction(new \Twig\TwigFunction('asset', function ($path) {
     return '../' . ltrim($path, '/');
 }));
 
-// Add path function
-$twig->addFunction(new \Twig\TwigFunction('path', function ($name) {
-    return '/';
+// Añadir función de directorios
+$twig->addFunction(new \Twig\TwigFunction('path', function ($name, $parameters = []) {
+    $routes = [
+        'home' => 'index.php',
+        'library' => 'library.php',
+        'artist_zone' => 'zonaArtistas.php',
+        'user_settings' => 'settings.php',
+        'user_update_username' => 'mainSettingsCode.php?action=update_username',
+        'user_update_password' => 'mainSettingsCode.php?action=update_password',
+        'user_delete_account' => 'mainSettingsCode.php?action=delete_account'
+    ];
+    
+    $path = $routes[$name] ?? '/';
+    
+    if (!empty($parameters)) {
+        $path .= (strpos($path, '?') !== false ? '&' : '?') . http_build_query($parameters);
+    }
+    
+    return $path;
 }));
 
 return $twig;

@@ -13,3 +13,18 @@ library:
 artist_zone:
     path: /zona
     controller: App\Controller\ArtistZoneController::index
+user_settings:
+    path: /settings
+    controller: App\Controller\UserController::settings
+
+user_update_username:
+    path: /settings/update-username
+    controller: App\Controller\UserController::updateUsername
+
+user_update_password:
+    path: /settings/update-password
+    controller: App\Controller\UserController::updatePassword
+
+user_delete_account:
+    path: /settings/delete
+    controller: App\Controller\UserController::deleteAccount

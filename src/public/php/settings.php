@@ -1,60 +1,46 @@
 <?php
-session_start();
+// Iniciar sesión si no está activa
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+// Cargar las entidades necesarias
 require '../../Entity/Cancion.php';
 require '../../Entity/Usuario.php';
 require '../../Entity/Artista.php';
 
+// Cargar el motor de plantillas Twig y el formulario de inicio de sesión
 $twig = require_once __DIR__ . '/../../config/twig.php';
-
 require ('loginForm.php');
 
-require ('mainSettingsCode.php');
+// Inicializar el controlador de usuario
+$controller = new \App\Controller\UserController(
+    require_once __DIR__ . "/../../../doctrine-config.php"
+);
 
+try {
+    // Crear un objeto Request con los datos de la petición HTTP
+    $request = new \Symfony\Component\HttpFoundation\Request(
+        $_GET,
+        $_POST,
+        [],
+        $_COOKIE,
+        $_FILES,
+        $_SERVER
+    );
+
+    // Llamar al método settings del controlador
+    $response = $controller->settings($request);
+    
+    // Mostrar el contenido de la respuesta
+    echo $response->getContent();
+    
+} catch (\Exception $e) {
+    // Mostrar mensaje de error en caso de excepción
+    echo "<p style='color: #cc0000; margin-left: 12px'>Error: " . $e->getMessage() . "</p>";
+}
+
+// Configuración para mostrar todos los errores
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
-    <title>UrbanMusic</title>
-</head>
-    <body>
-        <?php
-            echo $twig->render('components/navLeft.html.twig', [
-                'artista' => isset($_SESSION['artista'])
-            ]);
-        ?>
-        
-        <div class="mainGeneral">
-            <?php
-                echo $twig->render('components/navTop.html.twig', [
-                    'usuario' => $_SESSION['usuario'] ?? null
-                ]);
-            ?>
-            <div class="main">
-                <div class="titCanciones">
-                    <h1 class="titCanciones-inside">Ajustes</h1>
-                </div>
-                <?php if (!isset($_SESSION['usuario'])) { ?>
-                    <p style="font-weight: bold; color: #cc0000; margin-left: 12px">Necesitas iniciar sesión para acceder a tus ajustes.</p>
-                <?php } else {
-                    require 'mainSettings.php';
-                }
-                ?>
-            </div>
-
-            <?php
-                echo $twig->render('components/navBottom.html.twig', [
-                    'cancionActual' => $cancionActual ?? null
-                ]);
-            ?>
-        </div>
-    
-    <script src="../js/script.js"></script>
-    </body>
-</html>

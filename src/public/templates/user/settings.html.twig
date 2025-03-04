@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Ajustes | UrbanMusic</title>
+</head>
+<body>
+    {% include 'components/navLeft.html.twig' with {'artista': artista} %}
+    
+    <div class="mainGeneral">
+        {% include 'components/navTop.html.twig' with {'usuario': usuario} %}
+        
+        <div class="main">
+            <div class="titCanciones">
+                <h1 class="titCanciones-inside">Ajustes</h1>
+            </div>
+            
+            {% if not usuario %}
+                <p style="font-weight: bold; color: #cc0000; margin-left: 12px">Necesitas iniciar sesión para acceder a tus ajustes.</p>
+            {% else %}
+                <form method="POST" action="{{ path('user_update_username') }}" class="formAjustes">
+                    <h2 class="titAjustes">Cambiar el nombre de usuario</h2>
+                    <input type="text" class="settings-input" name="usuario_nuevo" placeholder="Nuevo nombre de usuario" required>
+                    {% if error_settings_user is defined and error_settings_user %}
+                        <p style="color: #cc0000; display: flex; justify-content: center; margin-top: 0;">{{ error_settings_user }}</p>
+                    {% endif %}
+                    <button type="submit" class="settings-submit" name="cambiar_usuario">Confirmar</button>
+                </form>
+
+                <form method="POST" action="{{ path('user_update_password') }}" class="formAjustes">
+                    <h2 class="titAjustes">Cambia tu contraseña</h2>
+                    <input type="password" class="settings-input" name="contrasena_actual" placeholder="Contraseña actual" required>
+                    <input type="password" class="settings-input" name="nueva_contrasena" placeholder="Nueva contraseña" required>
+                    <input type="password" class="settings-input" name="nueva_contrasena_confirmar" placeholder="Repite la nueva contraseña" required>
+                    {% if error_settings_pass is defined and error_settings_pass %}
+                        <p style="color: #cc0000; display: flex; justify-content: center; margin-top: 0;">{{ error_settings_pass }}</p>
+                    {% endif %}
+                    <button type="submit" class="settings-submit" name="cambiar_contrasena">Confirmar</button>
+                </form>
+
+                <form method="POST" action="{{ path('user_delete_account') }}" class="formAjustes-eliminarCuenta">
+                    {% if error_settings_delete is defined and error_settings_delete %}
+                        <p style="color: #cc0000; display: flex; justify-content: center; margin-top: 0;">{{ error_settings_delete }}</p>
+                    {% endif %}
+                    <button type="submit" class="settings-submit-delete" name="eliminar_cuenta">Eliminar cuenta</button>
+                </form>
+            {% endif %}
+        </div>
+        
+        {% include 'components/navBottom.html.twig' %}
+    </div>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>
